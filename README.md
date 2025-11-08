@@ -42,7 +42,7 @@ sudo apt-get install build-essential cmake libopenblas-dev liblapack-dev
 
 ## 📦 Installation Steps
 
-
+```bash
 # 1️⃣ Create and activate a virtual environment
 python -m venv .venv
 # Windows
@@ -55,7 +55,7 @@ python -m pip install --upgrade pip
 
 # 3️⃣ Install dependencies
 pip install flask flask-socketio python-dotenv opencv-python numpy face_recognition
-
+```
 
 ---
 
@@ -178,4 +178,3 @@ cd visionguard-ai
 
 > After cloning, follow these steps in order:  
 > **Requirements → Installation → Environment Setup → Prepare Known Faces → Run the Application**
-
