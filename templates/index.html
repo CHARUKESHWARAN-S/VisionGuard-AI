@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSTASAFE: Real-Time Threat Detection</title>
+    <style>
+        :root {
+            --primary-color: #1a2a3a;
+            --secondary-color: #2d3e50;
+            --accent-color: #4a90e2;
+            --light-color: #ecf0f1;
+            --dark-color: #0e1a2b;
+            --border-radius: 6px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            line-height: 1.6;
+            background: linear-gradient(rgba(10, 20, 30, 0.85), rgba(10, 20, 30, 0.9)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(26, 42, 58, 0.9);
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        h1::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+            margin-top: 10px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .video-feed {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+        
+        .video-feed img {
+            width: 100%;
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .panel {
+            background-color: rgba(26, 42, 58, 0.85);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .panel h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .detected-count {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.4);
+        }
+        
+        .detected-list {
+            margin-top: 20px;
+        }
+        
+        .detected-person {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .detected-person::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 20px;
+            font-size: 20px;
+        }
+        
+        .unknown-faces-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .unknown-face {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .unknown-face:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .unknown-face img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .unknown-face div {
+            padding: 10px;
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        .status-bar {
+            background-color: rgba(26, 42, 58, 0.9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #2ecc71;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .timestamp {
+            font-weight: 300;
+            color: #bbb;
+        }
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            color: #777;
+            text-align: center;
+            padding: 30px 0;
+            font-size: 14px;
+        }
+        
+        .empty-state i {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>INSTASAFE: Real-Time Threat Detection</h1>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="dashboard">
+            <div class="video-feed">
+                <img id="video" src="{{ url_for('video_feed') }}" alt="Live security feed">
+            </div>
+            
+            <div class="sidebar">
+                <div class="panel">
+                    <h2>Recognized Individuals</h2>
+                    <div class="detected-count"><span id="detected-count">0</span> detected</div>
+                    <div class="detected-list" id="detected-names">
+                        <!-- Detected names will appear here -->
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h2>Unknown Face Captures</h2>
+                    <div class="unknown-faces-grid" id="unknown-faces">
+                        <!-- Unknown faces will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>System Status: <strong>Active Monitoring</strong></span>
+            </div>
+            <div class="timestamp" id="current-time"></div>
+        </div>
+    </main>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleDateString() + ' | ' + now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Update face detection data
+        setInterval(() => {
+            fetch('/get_detections')
+                .then(response => response.json())
+                .then(data => {
+                    // Update known faces
+                    document.getElementById('detected-count').textContent = data.known_faces.length;
+                    document.getElementById('detected-names').innerHTML = 
+                        data.known_faces.length > 0 
+                            ? data.known_faces.map(name => `<div class="detected-person">${name}</div>`).join('')
+                            : `<div class="empty-state">
+                                <i>👤</i>
+                                No recognized individuals detected
+                               </div>`;
+                    
+                    // Update unknown faces
+                    document.getElementById('unknown-faces').innerHTML = 
+                        data.unknown_faces.length > 0
+                            ? data.unknown_faces.map(face => `
+                                <div class="unknown-face">
+                                    <img src="/static/${face.face_crop}" alt="Unknown face capture">
+                                    <div>${face.timestamp}</div>
+                                </div>
+                            `).join('')
+                            : `<div class="empty-state">
+                                <i>🕵️</i>
+                                No unknown faces detected
+                               </div>`;
+                });
+        }, 1000);
+    </script>
+</body>
+</html>

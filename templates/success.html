@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e73df;
+            --success: #1cc88a;
+        }
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .success-card {
+            max-width: 600px;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: white;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .success-header {
+            background: var(--success);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .success-body {
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            animation: bounce 1s infinite alternate;
+        }
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(28, 200, 138, 0.2);
+            border-radius: 50%;
+            position: absolute;
+        }
+        .checkmark-icon {
+            color: var(--success);
+            font-size: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .count-badge {
+            font-size: 1.2rem;
+            background: rgba(78, 115, 223, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <div class="success-header">
+            <h2 class="mb-0"><i class="fas fa-check-circle me-2"></i>Registration Complete</h2>
+        </div>
+        <div class="success-body">
+            <div class="checkmark">
+                <div class="checkmark-circle"></div>
+                <i class="fas fa-check-circle checkmark-icon"></i>
+            </div>
+            
+            
+            
+            <h3 class="mb-3">Thank You!</h3>
+            <p class="text-muted mb-4">
+                All photos have been saved in their original formats.
+            </p>
+            
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
