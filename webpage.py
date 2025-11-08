@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'
 
 # Configuration
-UPLOAD_FOLDER = r'C:\Users\mrcha\OneDrive\Desktop\Face-recognition-attendence-main\photos'
+UPLOAD_FOLDER = r'C:\Users\mrcha\OneDrive\Desktop\REAL TIME  DETECTION AND ALERTS USING AI AND CAMERA MODULE\photos'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
