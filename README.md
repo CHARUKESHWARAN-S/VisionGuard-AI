@@ -137,11 +137,16 @@ The webcam feed will start, and detections will appear in real time.
 
 ```
 visionguard-ai/
-├─ app.py
+├─ main.py
+├─ webpage.py
 ├─ templates/
 │  └─ index.html
+│  └─ home.html
+│  └─ success.html
+├─ screenshots/
 ├─ static/
 │  └─ unknown_faces/
+│  └─ styles.css
 ├─ photos/
 │  ├─ 1.jpg
 │  ├─ 2.jpg
@@ -178,3 +183,4 @@ cd visionguard-ai
 
 > After cloning, follow these steps in order:  
 > **Requirements → Installation → Environment Setup → Prepare Known Faces → Run the Application**
+
